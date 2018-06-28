@@ -7,9 +7,15 @@ import omitEmpty from 'omit-empty';
 import Promise from 'bluebird';
 import { debug } from './../logger';
 
-const dynamoConfig = {
+let dynamoConfig = {
   region: process.env.AWS_REGION || 'us-east-1'
 };
+if (process.env.IS_OFFLINE) {
+  dynamoConfig = {
+    region: 'localhost',
+    endpoint: 'http://localhost:8000'
+  };
+}
 const db = new DynamoDB.DocumentClient(dynamoConfig);
 
 
